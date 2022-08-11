@@ -1,0 +1,33 @@
+version: "3"
+services:
+    outgo:
+        image: demo/outgo
+        build: 
+            context: outgo/
+        env_file:
+            - .env
+        volumes:
+            - ./outgo:/app
+        depends_on:
+            - db
+        networks:
+            - db_network
+        ports:
+            - 8000:8000
+        command: ./manage.py runserver 0.0.0.0:8000
+    db:
+        image: postgres:14-alpine
+        networks:
+            - db_network
+        env_file:
+            - .env
+        environment:
+            POSTGRES_DB: $DB_NAME
+            POSTGRES_USER: $DB_USER
+            POSTGRES_PASSWORD: $DB_PASSWORD
+        volumes:
+            - .docker/dbdata:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+networks:
+    db_network:
