@@ -53,3 +53,4 @@ def lame_fun():
     print("Test")
     print("Test")
     print("Test")
+    print("Test")
